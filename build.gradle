@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'com.ncoding'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+    implementation 'org.telegram:telegrambots:6.1.0'
+    implementation 'com.coreoz:wisp:2.2.2'
+    implementation 'com.cronutils:cron-utils:9.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    testImplementation(
+            'org.hamcrest:hamcrest-library:2.2'
+    )
+
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+}
+
+test {
+    useJUnitPlatform()
+}
