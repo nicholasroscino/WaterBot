@@ -14,8 +14,8 @@ public class WispSchedulerWrapper implements JobScheduler {
 
     @Override
     public void scheduleEveryHour(Runnable runnable) {
-        //scheduler.schedule(runnable, CronSchedule.parseQuartzCron("0 0 0/1 1/1 * ? *"));
-        scheduler.schedule(runnable, CronSchedule.parseQuartzCron("* * * * * ? *")); //each second test
+        scheduler.schedule(runnable, CronSchedule.parseQuartzCron("0 0 0/1 1/1 * ? *"));
+        //scheduler.schedule(runnable, CronSchedule.parseQuartzCron("* * * * * ? *")); //each second test
     }
 }
 

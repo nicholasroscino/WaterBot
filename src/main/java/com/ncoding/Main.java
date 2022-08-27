@@ -38,7 +38,12 @@ public class Main {
         IWaterBotGateway waterBotGateway = new WaterBotGateway(List.of(waterBot), actionFactory);
         MessagePicker messagePicker = new RandomMessagePicker();
         waterBot.setGateway(waterBotGateway);
-        IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler, waterBotGateway, messagePicker, wbRepository,List.of(14,15), clock);
+        IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler,
+                waterBotGateway,
+                messagePicker,
+                wbRepository,
+                List.of(8,10,12,14,18,20),
+                clock);
 
         wbScheduler.runScheduler();
 
