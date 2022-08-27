@@ -2,9 +2,11 @@ package com.ncoding.core.actions;
 
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.MessagePicker;
 import com.ncoding.core.ports.WaterBotRepository;
 import com.ncoding.com.services.WaterBotGateway;
+import com.ncoding.infrastructure.SystemClock;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -33,9 +35,12 @@ public class DrinkAlertActionUnitTest {
 
     @Test
     public void execute() {
+        var triggerTime = 12;
         var waterBotGateway = Mockito.mock(WaterBotGateway.class);
         var fixedMessage = "Hello, Drink now";
         var waterBotRepository = Mockito.mock(WaterBotRepository.class);
+        var clock = Mockito.mock(Clock.class);
+        Mockito.when(clock.getCurrentUTCHour()).thenReturn(triggerTime);
 
         var userToSendMessageTo = new UserId("1");
         var set = new HashSet<>(List.of(userToSendMessageTo));
@@ -45,7 +50,7 @@ public class DrinkAlertActionUnitTest {
         ArgumentCaptor<WaterBotMessage> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
         var expectedMessage = new WaterBotMessage(userToSendMessageTo, fixedMessage);
 
-        DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(13,15));
+        DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(triggerTime), clock);
 
         waterBot.execute();
         verify(waterBotGateway).sendMessage(wbArgumentCaptor.capture());

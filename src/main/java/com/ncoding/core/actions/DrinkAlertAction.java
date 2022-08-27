@@ -2,13 +2,12 @@ package com.ncoding.core.actions;
 
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.WaterBotRepository;
 import com.ncoding.com.services.IWaterBotGateway;
 import com.ncoding.core.ports.MessagePicker;
 import lombok.AllArgsConstructor;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
 
@@ -18,12 +17,10 @@ public class DrinkAlertAction implements Action {
     private final MessagePicker messagePicker;
     private final WaterBotRepository repository;
     private final List<Integer> triggerTimes;
+    private final Clock clock;
 
     public void execute() {
-        Instant i = Instant.now();
-        var utcOffset = i.atOffset(ZoneOffset.UTC);
-
-        if(triggerTimes.contains(utcOffset.getHour())) {
+        if(triggerTimes.contains(clock.getCurrentUTCHour())) {
             var message = messagePicker.getMessage();
 
             HashSet<UserId> users = repository.getUsers();
