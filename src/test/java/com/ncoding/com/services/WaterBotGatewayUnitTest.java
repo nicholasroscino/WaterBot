@@ -18,7 +18,6 @@ public class WaterBotGatewayUnitTest {
         var telegramBot = Mockito.mock(TelegramBot.class);
         var waterBotRepository = Mockito.mock(WaterBotRepository.class);
         WaterBotGateway wbGateway = new WaterBotGateway(List.of(telegramBot), new ActionFactory(waterBotRepository));
-
         WaterBotMessage waterBotMessage = new WaterBotMessage(
                 new UserId("1"),
                 "message"

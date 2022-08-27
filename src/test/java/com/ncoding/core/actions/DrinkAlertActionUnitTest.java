@@ -35,25 +35,21 @@ public class DrinkAlertActionUnitTest {
     @Test
     public void execute() {
         var triggerTime = 12;
-        var waterBotGateway = Mockito.mock(WaterBotGateway.class);
         var fixedMessage = "Hello, Drink now";
-        var waterBotRepository = Mockito.mock(WaterBotRepository.class);
-        var clock = Mockito.mock(Clock.class);
-        Mockito.when(clock.getCurrentUTCHour()).thenReturn(triggerTime);
-
         var userToSendMessageTo = new UserId("1");
         var set = new HashSet<>(List.of(userToSendMessageTo));
-        when(waterBotRepository.getUsers()).thenReturn(set);
-
+        var waterBotGateway = Mockito.mock(WaterBotGateway.class);
+        var waterBotRepository = Mockito.mock(WaterBotRepository.class);
+        var clock = Mockito.mock(Clock.class);
         var messagePicker = new FixedMessagePicker(fixedMessage);
         ArgumentCaptor<WaterBotMessage> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
         var expectedMessage = new WaterBotMessage(userToSendMessageTo, fixedMessage);
-
         DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(triggerTime), clock);
+        when(clock.getCurrentUTCHour()).thenReturn(triggerTime);
+        when(waterBotRepository.getUsers()).thenReturn(set);
 
         waterBot.execute();
         verify(waterBotGateway).sendMessage(wbArgumentCaptor.capture());
-
         var value = wbArgumentCaptor.getValue();
         assertThat(value, is(equalTo(expectedMessage)));
     }

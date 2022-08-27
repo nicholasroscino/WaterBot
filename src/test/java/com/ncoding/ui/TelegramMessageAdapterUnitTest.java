@@ -40,19 +40,4 @@ public class TelegramMessageAdapterUnitTest {
 
         assertThat(waterBotMessage, is(equalTo(TestUtils.buildWaterBotMessage("TG-1", "msg"))));
     }
-
-    private Update buildTestUpdate(WaterBotMessage wbMsg) {
-        Update update = new Update();
-        Message message = new Message();
-        Chat chat = new Chat();
-
-        chat.setId(Long.parseLong(wbMsg.getUserId().getValue()));
-        message.setChat(chat);
-        message.setText(wbMsg.getMessage());
-
-        update.setMessage(message);
-
-        return update;
-    }
-
 }

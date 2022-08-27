@@ -17,13 +17,12 @@ public class RegisterUserActionUnitTest {
 
     @Test
     public void execute() {
+        var expectedId = "1";
         var repository = Mockito.mock(WaterBotRepository.class);
         var waterbotGateway = Mockito.mock(IWaterBotGateway.class);
-        var expectedId = "1";
         ArgumentCaptor<WaterBotMessage> gatewayCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
         ArgumentCaptor<UserId> repoCapture = ArgumentCaptor.forClass(UserId.class);
         var expectedResponseMessage = TestUtils.buildWaterBotMessage(expectedId, "User registered successfully");
-
         Action action = new RegisterUserAction(TestUtils.buildWaterBotMessage(expectedId, "/start"),
                 waterbotGateway,
                 repository);
@@ -32,10 +31,8 @@ public class RegisterUserActionUnitTest {
 
         Mockito.verify(repository).registerUser(repoCapture.capture());
         Mockito.verify(waterbotGateway).sendMessage(gatewayCaptor.capture());
-
         UserId repoValue = repoCapture.getValue();
         WaterBotMessage messageValue = gatewayCaptor.getValue();
-
         assertThat(repoValue.getValue(), is(equalTo("1")));
         assertThat(messageValue, is(equalTo(expectedResponseMessage)));
     }

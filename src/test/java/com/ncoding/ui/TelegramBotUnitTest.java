@@ -19,11 +19,11 @@ public class TelegramBotUnitTest {
 
     @Test
     public void updateMessageGetsDeliveredCorrectly() {
+        var expectedId = "1";
+        var expectedMessage = "ciao";
         TelegramBot tgBot = new TelegramBot("asdsd", "dasd", new TelegramMessageAdapter());
         var tgGateway = Mockito.mock(WaterBotGateway.class);
         ArgumentCaptor<WaterBotMessage> waterBotMessageArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
-        var expectedId = "1";
-        var expectedMessage = "ciao";
         var expectedWBMessage = TestUtils.buildWaterBotMessage("TG-" + expectedId, expectedMessage);
         var update = buildTestUpdate(TestUtils.buildWaterBotMessage(expectedId, expectedMessage));
 

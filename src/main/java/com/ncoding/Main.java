@@ -28,8 +28,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BotConfig config = ConfigProvider.provideConfig(Environment.PROD);
 
-        System.out.println(config);
-
         TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName(), new TelegramMessageAdapter());
         WaterBotRepository wbRepository = new InMemoryWaterBotRepository();
         Clock clock = new SystemClock();
@@ -37,7 +35,6 @@ public class Main {
         JobScheduler waterBotScheduler = new WispSchedulerWrapper();
         IWaterBotGateway waterBotGateway = new WaterBotGateway(List.of(waterBot), actionFactory);
         MessagePicker messagePicker = new RandomMessagePicker();
-        waterBot.setGateway(waterBotGateway);
         IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler,
                 waterBotGateway,
                 messagePicker,
@@ -45,6 +42,7 @@ public class Main {
                 List.of(8,10,12,14,18,20),
                 clock);
 
+        waterBot.setGateway(waterBotGateway);
         wbScheduler.runScheduler();
 
         try {

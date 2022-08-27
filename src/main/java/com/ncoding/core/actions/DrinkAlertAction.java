@@ -22,7 +22,6 @@ public class DrinkAlertAction implements Action {
     public void execute() {
         if(triggerTimes.contains(clock.getCurrentUTCHour())) {
             var message = messagePicker.getMessage();
-
             HashSet<UserId> users = repository.getUsers();
 
             users.forEach(curr -> {

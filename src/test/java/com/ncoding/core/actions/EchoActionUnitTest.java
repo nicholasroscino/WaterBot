@@ -24,7 +24,6 @@ public class EchoActionUnitTest {
 
         Mockito.verify(waterbotGateway).sendMessage(messageCaptor.capture());
         WaterBotMessage value = messageCaptor.getValue();
-
         assertThat(value, is(equalTo(message)));
     }
 
