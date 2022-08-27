@@ -1,7 +1,7 @@
 package com.ncoding.core.actions;
 
 import com.ncoding.core.models.WaterBotMessage;
-import com.ncoding.services.WaterBotGateway;
+import com.ncoding.com.services.WaterBotGateway;
 import com.ncoding.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

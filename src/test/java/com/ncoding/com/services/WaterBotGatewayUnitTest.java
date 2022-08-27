@@ -1,4 +1,4 @@
-package com.ncoding.services;
+package com.ncoding.com.services;
 
 import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.models.UserId;

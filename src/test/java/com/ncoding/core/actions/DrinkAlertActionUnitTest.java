@@ -4,7 +4,7 @@ import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.ports.MessagePicker;
 import com.ncoding.core.ports.WaterBotRepository;
-import com.ncoding.services.WaterBotGateway;
+import com.ncoding.com.services.WaterBotGateway;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -45,7 +45,7 @@ public class DrinkAlertActionUnitTest {
         ArgumentCaptor<WaterBotMessage> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
         var expectedMessage = new WaterBotMessage(userToSendMessageTo, fixedMessage);
 
-        DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository);
+        DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(13,15));
 
         waterBot.execute();
         verify(waterBotGateway).sendMessage(wbArgumentCaptor.capture());

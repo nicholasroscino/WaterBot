@@ -2,7 +2,7 @@ package com.ncoding.ui;
 
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.ports.WaterBotClient;
-import com.ncoding.services.IWaterBotGateway;
+import com.ncoding.com.services.IWaterBotGateway;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;

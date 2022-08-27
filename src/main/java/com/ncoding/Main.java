@@ -8,10 +8,10 @@ import com.ncoding.core.ports.WaterBotRepository;
 import com.ncoding.infrastructure.InMemoryWaterBotRepository;
 import com.ncoding.infrastructure.RandomMessagePicker;
 import com.ncoding.infrastructure.WispSchedulerWrapper;
-import com.ncoding.services.IWaterBotGateway;
-import com.ncoding.services.IWaterBotScheduler;
-import com.ncoding.services.WaterBotGateway;
-import com.ncoding.services.WaterBotScheduler;
+import com.ncoding.com.services.IWaterBotGateway;
+import com.ncoding.com.services.IWaterBotScheduler;
+import com.ncoding.com.services.WaterBotGateway;
+import com.ncoding.com.services.WaterBotScheduler;
 import com.ncoding.ui.TelegramBot;
 import com.ncoding.ui.TelegramMessageAdapter;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -36,7 +36,7 @@ public class Main {
         IWaterBotGateway waterBotGateway = new WaterBotGateway(List.of(waterBot), actionFactory);
         MessagePicker messagePicker = new RandomMessagePicker();
         waterBot.setGateway(waterBotGateway);
-        IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler, waterBotGateway, messagePicker, wbRepository);
+        IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler, waterBotGateway, messagePicker, wbRepository,List.of(14,15));
 
         wbScheduler.runScheduler();
 
