@@ -1,21 +1,23 @@
 package com.ncoding.ui;
 
 import com.ncoding.core.models.WaterBotMessage;
-import com.ncoding.core.models.UserId;
+import com.ncoding.core.ports.WaterBotClient;
 import com.ncoding.services.IWaterBotGateway;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBot extends TelegramLongPollingBot implements WaterBotClient {
     private final String token;
     private final String username;
+    private final TelegramMessageAdapter messageAdapter;
     private IWaterBotGateway gateway;
+    public final static String CLIENT_PREFIX = "TG";
 
-    public TelegramBot(String token, String username) {
+    public TelegramBot(String token, String username, TelegramMessageAdapter messageAdapter) {
         this.token = token;
         this.username = username;
+        this.messageAdapter = messageAdapter;
     }
 
     @Override
@@ -36,21 +38,25 @@ public class TelegramBot extends TelegramLongPollingBot {
             System.out.println("INFO: No gateway set");
             return;
         }
+        var wbMessage = this.messageAdapter.toWaterBotMessage(msg);
 
-        this.gateway.onUpdates(new WaterBotMessage(UserId.fromLong(msg.getChatId()), msg.getText()));
+        this.gateway.onUpdates(wbMessage);
     }
 
-    public void sendMessage(Long chatId, String message) {
-        SendMessage msg = new SendMessage();
-
-        msg.setChatId(chatId);
-        msg.setText(message);
+    public void sendMessage(WaterBotMessage message) {
+        var msg = this.messageAdapter.toTelegramMessage(message);
 
         try {
             execute(msg);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean canHandle(WaterBotMessage message) {
+        var client = message.getUserId().getValue().split("-");
+
+        return client[0].equals(CLIENT_PREFIX);
     }
 
     public void setGateway(IWaterBotGateway gateway) {

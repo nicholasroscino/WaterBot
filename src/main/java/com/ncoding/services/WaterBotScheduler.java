@@ -2,7 +2,6 @@ package com.ncoding.services;
 
 import com.ncoding.core.actions.Action;
 import com.ncoding.core.actions.DrinkAlertAction;
-import com.ncoding.core.models.UserId;
 import com.ncoding.core.ports.JobScheduler;
 import com.ncoding.core.ports.MessagePicker;
 import com.ncoding.core.ports.WaterBotRepository;
@@ -16,8 +15,6 @@ public class WaterBotScheduler implements IWaterBotScheduler {
     private WaterBotRepository repository;
 
     public void runScheduler() {
-
-
         Action action = new DrinkAlertAction(waterBotGateway, messagePicker, repository);
 
         jobScheduler.scheduleEveryHour(action::execute);

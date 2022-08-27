@@ -1,6 +1,5 @@
 package com.ncoding.core.actions;
 
-import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.services.WaterBotGateway;
 import com.ncoding.utils.TestUtils;
@@ -12,13 +11,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-public class EchoActionTest {
+public class EchoActionUnitTest {
 
     @Test
     public void execute() {
         var waterbotGateway = Mockito.mock(WaterBotGateway.class);
         ArgumentCaptor<WaterBotMessage> messageCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
-        var message = TestUtils.buildWaterBotMessage(1L, "hello");
+        var message = TestUtils.buildWaterBotMessage("1", "hello");
         Action action = new EchoAction(waterbotGateway, message);
 
         action.execute();

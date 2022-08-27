@@ -13,17 +13,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-public class RegisterUserActionTest {
+public class RegisterUserActionUnitTest {
 
     @Test
     public void execute() {
         var repository = Mockito.mock(WaterBotRepository.class);
         var waterbotGateway = Mockito.mock(IWaterBotGateway.class);
+        var expectedId = "1";
         ArgumentCaptor<WaterBotMessage> gatewayCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
         ArgumentCaptor<UserId> repoCapture = ArgumentCaptor.forClass(UserId.class);
-        var expectedResponseMessage = TestUtils.buildWaterBotMessage(1L, "User registered successfully");
+        var expectedResponseMessage = TestUtils.buildWaterBotMessage(expectedId, "User registered successfully");
 
-        Action action = new RegisterUserAction(TestUtils.buildWaterBotMessage(1L, "/start"),
+        Action action = new RegisterUserAction(TestUtils.buildWaterBotMessage(expectedId, "/start"),
                 waterbotGateway,
                 repository);
 
@@ -35,7 +36,7 @@ public class RegisterUserActionTest {
         UserId repoValue = repoCapture.getValue();
         WaterBotMessage messageValue = gatewayCaptor.getValue();
 
-        assertThat(repoValue.getValue(), is(equalTo(1L)));
+        assertThat(repoValue.getValue(), is(equalTo("1")));
         assertThat(messageValue, is(equalTo(expectedResponseMessage)));
     }
 }

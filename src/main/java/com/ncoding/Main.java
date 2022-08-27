@@ -13,27 +13,27 @@ import com.ncoding.services.IWaterBotScheduler;
 import com.ncoding.services.WaterBotGateway;
 import com.ncoding.services.WaterBotScheduler;
 import com.ncoding.ui.TelegramBot;
+import com.ncoding.ui.TelegramMessageAdapter;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("MMMMM");
-
         BotConfig config = ConfigProvider.provideConfig(Environment.PROD);
 
         System.out.println(config);
 
-        TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName());
+        TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName(), new TelegramMessageAdapter());
         WaterBotRepository wbRepository = new InMemoryWaterBotRepository();
 
         IActionFactory actionFactory = new ActionFactory(wbRepository);
         JobScheduler waterBotScheduler = new WispSchedulerWrapper();
-        IWaterBotGateway waterBotGateway = new WaterBotGateway(waterBot, actionFactory);
+        IWaterBotGateway waterBotGateway = new WaterBotGateway(List.of(waterBot), actionFactory);
         MessagePicker messagePicker = new RandomMessagePicker();
         waterBot.setGateway(waterBotGateway);
         IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler, waterBotGateway, messagePicker, wbRepository);

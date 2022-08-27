@@ -29,7 +29,7 @@ class FixedMessagePicker implements MessagePicker {
     }
 }
 
-public class DrinkAlertActionTest {
+public class DrinkAlertActionUnitTest {
 
     @Test
     public void execute() {
@@ -37,7 +37,7 @@ public class DrinkAlertActionTest {
         var fixedMessage = "Hello, Drink now";
         var waterBotRepository = Mockito.mock(WaterBotRepository.class);
 
-        var userToSendMessageTo = UserId.fromLong(1L);
+        var userToSendMessageTo = new UserId("1");
         var set = new HashSet<>(List.of(userToSendMessageTo));
         when(waterBotRepository.getUsers()).thenReturn(set);
 
