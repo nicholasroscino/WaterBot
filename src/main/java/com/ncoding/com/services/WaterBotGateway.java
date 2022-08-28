@@ -24,6 +24,8 @@ public class WaterBotGateway implements IWaterBotGateway {
 
     @Override
     public void onUpdates(WaterBotMessage message) {
+
+
         var action = this.actionFactory.createAction(message, this);
         if (action != null) action.execute();
     }
