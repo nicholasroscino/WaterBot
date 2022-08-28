@@ -8,7 +8,8 @@ import com.ncoding.core.ports.MessagePicker;
 import com.ncoding.core.ports.UserRepository;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
+
 
 @AllArgsConstructor
 public class WaterBotScheduler implements IWaterBotScheduler {
@@ -16,7 +17,7 @@ public class WaterBotScheduler implements IWaterBotScheduler {
     private final IWaterBotGateway waterBotGateway;
     private final MessagePicker messagePicker;
     private final UserRepository repository;
-    private final List<Integer> triggerTimes;
+    private final Set<Integer> triggerTimes;
     private final Clock clock;
 
     public void runScheduler() {

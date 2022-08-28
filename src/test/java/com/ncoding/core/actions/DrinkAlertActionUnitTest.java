@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,7 +28,7 @@ class FixedMessagePicker implements MessagePicker {
     private String messageToReturn;
 
     @Override
-    public String getMessage() {
+    public String getMessage(int hour) {
         return this.messageToReturn;
     }
 }
@@ -46,7 +47,7 @@ public class DrinkAlertActionUnitTest {
         var messagePicker = new FixedMessagePicker(fixedMessage);
         ArgumentCaptor<WaterBotMessageResponse> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessageResponse.class);
         var expectedMessage = new WaterBotMessageResponse(userToSendMessageTo.getUserId(), fixedMessage);
-        DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(triggerTime), clock);
+        DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, Set.of(triggerTime), clock);
         when(clock.getCurrentTimeZoneHour(ZoneOffset.UTC)).thenReturn(triggerTime);
         when(waterBotRepository.getAll()).thenReturn(set);
 
