@@ -2,7 +2,6 @@ package com.ncoding.core.actions;
 
 import com.ncoding.core.models.User;
 import com.ncoding.core.models.UserId;
-import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.MessagePicker;
@@ -48,7 +47,7 @@ public class DrinkAlertActionUnitTest {
         ArgumentCaptor<WaterBotMessageResponse> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessageResponse.class);
         var expectedMessage = new WaterBotMessageResponse(userToSendMessageTo.getUserId(), fixedMessage);
         DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(triggerTime), clock);
-        when(clock.getCurrentUTCHour()).thenReturn(triggerTime);
+        when(clock.getCurrentTimeZoneHour(ZoneOffset.UTC)).thenReturn(triggerTime);
         when(waterBotRepository.getAll()).thenReturn(set);
 
         waterBot.execute();

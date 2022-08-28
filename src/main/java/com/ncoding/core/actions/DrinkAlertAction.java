@@ -20,14 +20,16 @@ public class DrinkAlertAction implements Action {
     private final Clock clock;
 
     public void execute() {
-        if(triggerTimes.contains(clock.getCurrentUTCHour())) {
-            var message = messagePicker.getMessage();
-            HashSet<User> users = repository.getAll();
+        HashSet<User> users = repository.getAll();
 
-            users.forEach(curr -> {
+        users.forEach(curr -> {
+            int hour = clock.getCurrentTimeZoneHour(curr.getOffset());
+
+            if(triggerTimes.contains(hour)) {
+                var message = messagePicker.getMessage();
                 var wbMessage = new WaterBotMessageResponse(curr.getUserId(), message);
                 this.waterBotGateway.sendMessage(wbMessage);
-            });
-        }
+            }
+        });
     }
 }
