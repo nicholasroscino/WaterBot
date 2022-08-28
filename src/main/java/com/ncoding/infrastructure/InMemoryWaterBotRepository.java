@@ -1,20 +1,20 @@
 package com.ncoding.infrastructure;
 
-import com.ncoding.core.models.UserId;
-import com.ncoding.core.ports.WaterBotRepository;
+import com.ncoding.core.models.User;
+import com.ncoding.core.ports.UserRepository;
 
 import java.util.HashSet;
 
-public class InMemoryWaterBotRepository implements WaterBotRepository {
-    private final HashSet<UserId> userIds = new HashSet<>();
+public class InMemoryWaterBotRepository implements UserRepository {
+    private final HashSet<User> userIds = new HashSet<>();
 
     @Override
-    public void registerUser(UserId userId) {
+    public void register(User userId) {
         userIds.add(userId);
     }
 
     @Override
-    public HashSet<UserId> getUsers() {
+    public HashSet<User> getAll() {
         return userIds;
     }
 }

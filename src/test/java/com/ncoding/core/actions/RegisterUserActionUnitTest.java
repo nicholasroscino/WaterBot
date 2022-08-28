@@ -1,8 +1,10 @@
 package com.ncoding.core.actions;
 
+import com.ncoding.core.models.User;
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
-import com.ncoding.core.ports.WaterBotRepository;
+import com.ncoding.core.models.WaterBotMessageResponse;
+import com.ncoding.core.ports.UserRepository;
 import com.ncoding.com.services.IWaterBotGateway;
 import com.ncoding.utils.TestUtils;
 import org.junit.jupiter.api.Test;
@@ -18,22 +20,22 @@ public class RegisterUserActionUnitTest {
     @Test
     public void execute() {
         var expectedId = "1";
-        var repository = Mockito.mock(WaterBotRepository.class);
+        var repository = Mockito.mock(UserRepository.class);
         var waterbotGateway = Mockito.mock(IWaterBotGateway.class);
-        ArgumentCaptor<WaterBotMessage> gatewayCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
-        ArgumentCaptor<UserId> repoCapture = ArgumentCaptor.forClass(UserId.class);
-        var expectedResponseMessage = TestUtils.buildWaterBotMessage(expectedId, "User registered successfully");
-        Action action = new RegisterUserAction(TestUtils.buildWaterBotMessage(expectedId, "/start"),
+        var gatewayCaptor = ArgumentCaptor.forClass(WaterBotMessageResponse.class);
+        var repoCapture = ArgumentCaptor.forClass(User.class);
+        var expectedResponseMessage = TestUtils.buildWaterBotMessageResponse(expectedId, "User registered successfully");
+        Action action = new RegisterUserAction(TestUtils.buildWaterBotMessage(expectedId, "nick", "nick", "/start"),
                 waterbotGateway,
                 repository);
 
         action.execute();
 
-        Mockito.verify(repository).registerUser(repoCapture.capture());
+        Mockito.verify(repository).register(repoCapture.capture());
         Mockito.verify(waterbotGateway).sendMessage(gatewayCaptor.capture());
-        UserId repoValue = repoCapture.getValue();
-        WaterBotMessage messageValue = gatewayCaptor.getValue();
-        assertThat(repoValue.getValue(), is(equalTo("1")));
+        var repoValue = repoCapture.getValue();
+        var messageValue = gatewayCaptor.getValue();
+        assertThat(repoValue.getUserId().getValue(), is(equalTo("1")));
         assertThat(messageValue, is(equalTo(expectedResponseMessage)));
     }
 }

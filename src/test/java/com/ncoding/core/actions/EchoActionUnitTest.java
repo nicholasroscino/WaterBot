@@ -1,7 +1,7 @@
 package com.ncoding.core.actions;
 
-import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.com.services.WaterBotGateway;
+import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,15 +16,15 @@ public class EchoActionUnitTest {
     @Test
     public void execute() {
         var waterbotGateway = Mockito.mock(WaterBotGateway.class);
-        ArgumentCaptor<WaterBotMessage> messageCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
-        var message = TestUtils.buildWaterBotMessage("1", "hello");
+        ArgumentCaptor<WaterBotMessageResponse> messageCaptor = ArgumentCaptor.forClass(WaterBotMessageResponse.class);
+        var message = TestUtils.buildWaterBotMessage("1", "nick", "nick", "hello");
         Action action = new EchoAction(waterbotGateway, message);
 
         action.execute();
 
         Mockito.verify(waterbotGateway).sendMessage(messageCaptor.capture());
-        WaterBotMessage value = messageCaptor.getValue();
-        assertThat(value, is(equalTo(message)));
+        var value = messageCaptor.getValue();
+        assertThat(value, is(equalTo(TestUtils.buildWaterBotMessageResponse(message.getUserId().getValue(), message.getMessage()))));
     }
 
 }

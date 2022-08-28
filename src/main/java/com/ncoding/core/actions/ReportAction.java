@@ -3,6 +3,7 @@ package com.ncoding.core.actions;
 import com.ncoding.com.services.IWaterBotGateway;
 import com.ncoding.core.models.Report;
 import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.ReportRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,6 @@ public class ReportAction implements Action {
 
         Report r = new Report(message.getUserId(), msg, clock.getCurrentTimestamp());
         repository.save(r);
-        gateway.sendMessage(new WaterBotMessage(message.getUserId(), "The report has been submitted, thank you :)"));
+        gateway.sendMessage(new WaterBotMessageResponse(message.getUserId(), "The report has been submitted, thank you :)"));
     }
 }

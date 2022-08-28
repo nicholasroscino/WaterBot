@@ -2,6 +2,7 @@ package com.ncoding.com.services;
 
 import com.ncoding.core.actions.IActionFactory;
 import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.WaterBotClient;
 import lombok.AllArgsConstructor;
 
@@ -13,7 +14,7 @@ public class WaterBotGateway implements IWaterBotGateway {
     private IActionFactory actionFactory;
 
     @Override
-    public void sendMessage(WaterBotMessage message) {
+    public void sendMessage(WaterBotMessageResponse message) {
         bots.stream()
                 .filter(curr -> curr.canHandle(message))
                 .findFirst()
@@ -24,8 +25,6 @@ public class WaterBotGateway implements IWaterBotGateway {
 
     @Override
     public void onUpdates(WaterBotMessage message) {
-
-
         var action = this.actionFactory.createAction(message, this);
         if (action != null) action.execute();
     }

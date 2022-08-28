@@ -23,7 +23,7 @@ public class Main {
         BotConfig config = ConfigProvider.provideConfig(Environment.PROD);
 
         TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName(), new TelegramMessageAdapter());
-        WaterBotRepository wbRepository = new InMemoryWaterBotRepository();
+        UserRepository wbRepository = new InMemoryWaterBotRepository();
         ReportRepository reportRepository = new InMemoryReportRepository();
         Clock clock = new SystemClock();
         IActionFactory actionFactory = new ActionFactory(wbRepository, reportRepository, clock);
@@ -34,7 +34,7 @@ public class Main {
                 waterBotGateway,
                 messagePicker,
                 wbRepository,
-                List.of(8, 10, 12, 14, 18, 20),
+                List.of(8, 10, 12, 14, 16, 18, 20),
                 clock);
 
         waterBot.setGateway(waterBotGateway);

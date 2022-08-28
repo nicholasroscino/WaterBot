@@ -1,16 +1,19 @@
 package com.ncoding.core.actions;
 
+import com.ncoding.core.models.User;
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.MessagePicker;
-import com.ncoding.core.ports.WaterBotRepository;
+import com.ncoding.core.ports.UserRepository;
 import com.ncoding.com.services.WaterBotGateway;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
 
@@ -36,17 +39,17 @@ public class DrinkAlertActionUnitTest {
     public void execute() {
         var triggerTime = 12;
         var fixedMessage = "Hello, Drink now";
-        var userToSendMessageTo = new UserId("1");
+        var userToSendMessageTo = new User(new UserId("1"), "nick", "nick", ZoneOffset.UTC);
         var set = new HashSet<>(List.of(userToSendMessageTo));
         var waterBotGateway = Mockito.mock(WaterBotGateway.class);
-        var waterBotRepository = Mockito.mock(WaterBotRepository.class);
+        var waterBotRepository = Mockito.mock(UserRepository.class);
         var clock = Mockito.mock(Clock.class);
         var messagePicker = new FixedMessagePicker(fixedMessage);
-        ArgumentCaptor<WaterBotMessage> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
-        var expectedMessage = new WaterBotMessage(userToSendMessageTo, fixedMessage);
+        ArgumentCaptor<WaterBotMessageResponse> wbArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessageResponse.class);
+        var expectedMessage = new WaterBotMessageResponse(userToSendMessageTo.getUserId(), fixedMessage);
         DrinkAlertAction waterBot = new DrinkAlertAction(waterBotGateway, messagePicker, waterBotRepository, List.of(triggerTime), clock);
         when(clock.getCurrentUTCHour()).thenReturn(triggerTime);
-        when(waterBotRepository.getUsers()).thenReturn(set);
+        when(waterBotRepository.getAll()).thenReturn(set);
 
         waterBot.execute();
         verify(waterBotGateway).sendMessage(wbArgumentCaptor.capture());

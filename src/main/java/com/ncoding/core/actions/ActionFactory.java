@@ -3,13 +3,13 @@ package com.ncoding.core.actions;
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.ReportRepository;
-import com.ncoding.core.ports.WaterBotRepository;
+import com.ncoding.core.ports.UserRepository;
 import com.ncoding.com.services.IWaterBotGateway;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ActionFactory implements IActionFactory {
-    private final WaterBotRepository repository;
+    private final UserRepository repository;
     private final ReportRepository reportRepository;
     private final Clock clock;
 

@@ -1,5 +1,6 @@
 package com.ncoding.ui;
 
+import com.ncoding.com.services.IWaterBotGateway;
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.ports.WaterBotClient;
 import com.ncoding.com.services.WaterBotGateway;
@@ -22,10 +23,10 @@ public class TelegramBotUnitTest {
         var expectedId = "1";
         var expectedMessage = "ciao";
         TelegramBot tgBot = new TelegramBot("asdsd", "dasd", new TelegramMessageAdapter());
-        var tgGateway = Mockito.mock(WaterBotGateway.class);
+        var tgGateway = Mockito.mock(IWaterBotGateway.class);
         ArgumentCaptor<WaterBotMessage> waterBotMessageArgumentCaptor = ArgumentCaptor.forClass(WaterBotMessage.class);
-        var expectedWBMessage = TestUtils.buildWaterBotMessage("TG-" + expectedId, expectedMessage);
-        var update = buildTestUpdate(TestUtils.buildWaterBotMessage(expectedId, expectedMessage));
+        var expectedWBMessage = TestUtils.buildWaterBotMessage("TG-" + expectedId, "nick", "nick", expectedMessage);
+        var update = buildTestUpdate(TestUtils.buildWaterBotMessage(expectedId, "nick", "nick", expectedMessage));
 
         tgBot.setGateway(tgGateway);
         tgBot.onUpdateReceived(update);
@@ -38,7 +39,7 @@ public class TelegramBotUnitTest {
     @Test
     public void canHandleTelegramMessage() {
         WaterBotClient tgBot = new TelegramBot("asdsd", "dasd", new TelegramMessageAdapter());
-        assertThat(tgBot.canHandle(TestUtils.buildWaterBotMessage("TG-1", "ciao")), is(equalTo(true)));
+        assertThat(tgBot.canHandle(TestUtils.buildWaterBotMessageResponse("TG-1", "ciao")), is(equalTo(true)));
     }
 
     private Update buildTestUpdate(WaterBotMessage wbMsg) {
@@ -46,6 +47,8 @@ public class TelegramBotUnitTest {
         Message message = new Message();
         Chat chat = new Chat();
 
+        chat.setUserName(wbMsg.getUserTag());
+        chat.setFirstName(wbMsg.getUserName());
         chat.setId(Long.parseLong(wbMsg.getUserId().getValue()));
         message.setChat(chat);
         message.setText(wbMsg.getMessage());

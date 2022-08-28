@@ -1,6 +1,6 @@
 package com.ncoding.ui;
 
-import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.WaterBotClient;
 import com.ncoding.com.services.IWaterBotGateway;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -43,7 +43,7 @@ public class TelegramBot extends TelegramLongPollingBot implements WaterBotClien
         this.gateway.onUpdates(wbMessage);
     }
 
-    public void sendMessage(WaterBotMessage message) {
+    public void sendMessage(WaterBotMessageResponse message) {
         var msg = this.messageAdapter.toTelegramMessage(message);
 
         try {
@@ -53,7 +53,7 @@ public class TelegramBot extends TelegramLongPollingBot implements WaterBotClien
         }
     }
 
-    public boolean canHandle(WaterBotMessage message) {
+    public boolean canHandle(WaterBotMessageResponse message) {
         var client = message.getUserId().getValue().split("-");
 
         return client[0].equals(CLIENT_PREFIX);

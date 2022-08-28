@@ -2,6 +2,7 @@ package com.ncoding.core.actions;
 
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.com.services.IWaterBotGateway;
+import com.ncoding.core.models.WaterBotMessageResponse;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -13,6 +14,6 @@ public class EchoAction implements Action {
 
     @Override
     public void execute() {
-        this.waterBotGateway.sendMessage(receivedMessage);
+        this.waterBotGateway.sendMessage(new WaterBotMessageResponse(receivedMessage.getUserId(), receivedMessage.getMessage()));
     }
 }

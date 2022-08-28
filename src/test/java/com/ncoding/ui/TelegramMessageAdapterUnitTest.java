@@ -22,7 +22,7 @@ public class TelegramMessageAdapterUnitTest {
         msg.setText("msg");
         msg.setChatId(1L);
 
-        var sendMessage = adapter.toTelegramMessage(TestUtils.buildWaterBotMessage("TG-1", "msg"));
+        var sendMessage = adapter.toTelegramMessage(TestUtils.buildWaterBotMessageResponse("TG-1", "msg"));
 
         assertThat(msg,is(equalTo(sendMessage)));
     }
@@ -34,10 +34,12 @@ public class TelegramMessageAdapterUnitTest {
         msg.setText("msg");
         var chat = new Chat();
         chat.setId(1L);
+        chat.setFirstName("nick");
+        chat.setUserName("nick");
         msg.setChat(chat);
 
         var waterBotMessage = adapter.toWaterBotMessage(msg);
 
-        assertThat(waterBotMessage, is(equalTo(TestUtils.buildWaterBotMessage("TG-1", "msg"))));
+        assertThat(waterBotMessage, is(equalTo(TestUtils.buildWaterBotMessage("TG-1", "nick","nick", "msg"))));
     }
 }
