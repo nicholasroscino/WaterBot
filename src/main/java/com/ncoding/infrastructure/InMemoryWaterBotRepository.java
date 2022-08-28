@@ -23,7 +23,7 @@ public class InMemoryWaterBotRepository implements UserRepository {
     @Override
     public User getOne(UserId userId) {
         return users.stream()
-                .filter(curr -> curr.getUserId() == userId)
+                .filter(curr -> curr.getUserId().equals(userId))
                 .findFirst()
                 .orElse(null);
     }
