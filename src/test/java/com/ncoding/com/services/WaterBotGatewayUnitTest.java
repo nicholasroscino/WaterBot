@@ -3,6 +3,8 @@ package com.ncoding.com.services;
 import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;
+import com.ncoding.core.ports.Clock;
+import com.ncoding.core.ports.ReportRepository;
 import com.ncoding.core.ports.WaterBotRepository;
 import com.ncoding.ui.TelegramBot;
 import com.ncoding.utils.TestUtils;
@@ -17,7 +19,9 @@ public class WaterBotGatewayUnitTest {
     public void verifyRightMessageSent() {
         var telegramBot = Mockito.mock(TelegramBot.class);
         var waterBotRepository = Mockito.mock(WaterBotRepository.class);
-        WaterBotGateway wbGateway = new WaterBotGateway(List.of(telegramBot), new ActionFactory(waterBotRepository));
+        var reportRepository = Mockito.mock(ReportRepository.class);
+        var clock = Mockito.mock(Clock.class);
+        WaterBotGateway wbGateway = new WaterBotGateway(List.of(telegramBot), new ActionFactory(waterBotRepository, reportRepository, clock));
         WaterBotMessage waterBotMessage = new WaterBotMessage(
                 new UserId("1"),
                 "message"
@@ -33,7 +37,9 @@ public class WaterBotGatewayUnitTest {
     public void verifyEchoActionIsCreated() {
         var telegramBot = Mockito.mock(TelegramBot.class);
         var waterBotRepository = Mockito.mock(WaterBotRepository.class);
-        var wbGateway = new WaterBotGateway(List.of(telegramBot), new ActionFactory(waterBotRepository));
+        var clock = Mockito.mock(Clock.class);
+        var reportRepository = Mockito.mock(ReportRepository.class);
+        var wbGateway = new WaterBotGateway(List.of(telegramBot), new ActionFactory(waterBotRepository, reportRepository, clock));
         var echoMessage = TestUtils.buildWaterBotMessage("1", "/echo");
         Mockito.when(telegramBot.canHandle(Mockito.any())).thenReturn(true);
 

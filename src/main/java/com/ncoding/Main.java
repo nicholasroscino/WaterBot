@@ -2,14 +2,8 @@ package com.ncoding;
 
 import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.actions.IActionFactory;
-import com.ncoding.core.ports.Clock;
-import com.ncoding.core.ports.JobScheduler;
-import com.ncoding.core.ports.MessagePicker;
-import com.ncoding.core.ports.WaterBotRepository;
-import com.ncoding.infrastructure.InMemoryWaterBotRepository;
-import com.ncoding.infrastructure.RandomMessagePicker;
-import com.ncoding.infrastructure.SystemClock;
-import com.ncoding.infrastructure.WispSchedulerWrapper;
+import com.ncoding.core.ports.*;
+import com.ncoding.infrastructure.*;
 import com.ncoding.com.services.IWaterBotGateway;
 import com.ncoding.com.services.IWaterBotScheduler;
 import com.ncoding.com.services.WaterBotGateway;
@@ -30,8 +24,9 @@ public class Main {
 
         TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName(), new TelegramMessageAdapter());
         WaterBotRepository wbRepository = new InMemoryWaterBotRepository();
+        ReportRepository reportRepository = new InMemoryReportRepository();
         Clock clock = new SystemClock();
-        IActionFactory actionFactory = new ActionFactory(wbRepository);
+        IActionFactory actionFactory = new ActionFactory(wbRepository, reportRepository, clock);
         JobScheduler waterBotScheduler = new WispSchedulerWrapper();
         IWaterBotGateway waterBotGateway = new WaterBotGateway(List.of(waterBot), actionFactory);
         MessagePicker messagePicker = new RandomMessagePicker();
@@ -39,7 +34,7 @@ public class Main {
                 waterBotGateway,
                 messagePicker,
                 wbRepository,
-                List.of(8,10,12,14,18,20),
+                List.of(8, 10, 12, 14, 18, 20),
                 clock);
 
         waterBot.setGateway(waterBotGateway);

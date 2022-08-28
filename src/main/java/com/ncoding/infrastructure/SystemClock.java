@@ -10,4 +10,9 @@ public class SystemClock implements Clock {
     public int getCurrentUTCHour() {
         return Instant.now().atOffset(ZoneOffset.UTC).getHour();
     }
+
+    @Override
+    public String getCurrentTimestamp() {
+        return Instant.now().toString();
+    }
 }
