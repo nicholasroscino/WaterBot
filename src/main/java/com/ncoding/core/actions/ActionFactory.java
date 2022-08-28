@@ -18,6 +18,7 @@ public class ActionFactory implements IActionFactory {
             case EchoAction.CODE -> new EchoAction(waterBotGateway,waterBotMessage);
             case RegisterUserAction.CODE -> new RegisterUserAction(waterBotMessage, waterBotGateway, repository);
             case ReportAction.CODE -> new ReportAction(reportRepository, waterBotMessage, clock, waterBotGateway);
+            case SetTimeZoneAction.CODE -> new SetTimeZoneAction(repository,waterBotMessage,waterBotGateway);
             default -> null;
         };
     }
