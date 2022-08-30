@@ -1,6 +1,6 @@
 package com.ncoding.core.actions;
 
-import com.ncoding.com.services.IWaterBotGateway;
+import com.ncoding.core.services.IWaterBotGateway;
 import com.ncoding.core.models.Report;
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.models.WaterBotMessage;

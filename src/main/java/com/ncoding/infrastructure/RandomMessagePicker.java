@@ -1,6 +1,6 @@
 package com.ncoding.infrastructure;
 
-import com.ncoding.com.services.DayPhaseRetriever;
+import com.ncoding.core.services.DayPhaseRetriever;
 import com.ncoding.core.ports.MessagePicker;
 import com.ncoding.core.ports.MoodRepository;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.ncoding.core.actions;
 
 import com.ncoding.core.models.WaterBotMessage;
-import com.ncoding.com.services.IWaterBotGateway;
+import com.ncoding.core.services.IWaterBotGateway;
 import com.ncoding.core.models.WaterBotMessageResponse;
 import lombok.AllArgsConstructor;
 

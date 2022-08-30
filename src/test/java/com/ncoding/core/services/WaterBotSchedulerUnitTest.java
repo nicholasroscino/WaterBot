@@ -1,4 +1,4 @@
-package com.ncoding.com.services;
+package com.ncoding.core.services;
 
 import org.junit.jupiter.api.Test;
 

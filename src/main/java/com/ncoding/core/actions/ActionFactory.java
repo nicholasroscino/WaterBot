@@ -4,7 +4,7 @@ import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.ReportRepository;
 import com.ncoding.core.ports.UserRepository;
-import com.ncoding.com.services.IWaterBotGateway;
+import com.ncoding.core.services.IWaterBotGateway;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

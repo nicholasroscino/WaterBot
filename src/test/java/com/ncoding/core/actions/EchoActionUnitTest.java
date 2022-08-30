@@ -1,6 +1,6 @@
 package com.ncoding.core.actions;
 
-import com.ncoding.com.services.WaterBotGateway;
+import com.ncoding.core.services.WaterBotGateway;
 import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.utils.TestUtils;
 import org.junit.jupiter.api.Test;

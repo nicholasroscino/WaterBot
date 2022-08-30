@@ -1,8 +1,7 @@
-package com.ncoding.com.services;
+package com.ncoding.core.services;
 
 import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.models.UserId;
-import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.ReportRepository;

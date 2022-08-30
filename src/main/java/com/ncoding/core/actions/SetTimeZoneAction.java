@@ -1,12 +1,8 @@
 package com.ncoding.core.actions;
 
-import com.ncoding.com.services.IWaterBotGateway;
-import com.ncoding.core.models.Report;
-import com.ncoding.core.models.User;
+import com.ncoding.core.services.IWaterBotGateway;
 import com.ncoding.core.models.WaterBotMessage;
 import com.ncoding.core.models.WaterBotMessageResponse;
-import com.ncoding.core.ports.Clock;
-import com.ncoding.core.ports.ReportRepository;
 import com.ncoding.core.ports.UserRepository;
 import lombok.AllArgsConstructor;
 

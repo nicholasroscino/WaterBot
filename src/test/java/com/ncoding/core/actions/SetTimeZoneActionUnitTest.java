@@ -1,9 +1,7 @@
 package com.ncoding.core.actions;
 
-import com.ncoding.com.services.IWaterBotGateway;
+import com.ncoding.core.services.IWaterBotGateway;
 import com.ncoding.core.models.*;
-import com.ncoding.core.ports.Clock;
-import com.ncoding.core.ports.ReportRepository;
 import com.ncoding.core.ports.UserRepository;
 import com.ncoding.utils.TestUtils;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,6 @@ import org.mockito.Mockito;
 import java.time.ZoneOffset;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.equalTo;
 
 public class SetTimeZoneActionUnitTest {

@@ -1,10 +1,11 @@
 package com.ncoding;
 
-import com.ncoding.com.services.*;
+import com.ncoding.core.services.*;
 import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.actions.IActionFactory;
 import com.ncoding.core.models.DayPhases;
 import com.ncoding.core.ports.*;
+import com.ncoding.core.services.*;
 import com.ncoding.infrastructure.*;
 import com.ncoding.ui.TelegramBot;
 import com.ncoding.ui.TelegramMessageAdapter;
