@@ -1,4 +1,4 @@
-package com.ncoding.core.ports;
+package com.ncoding.core.services;
 
 public interface MessagePicker {
     String getMessage(int hour);

@@ -5,15 +5,21 @@ import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.actions.IActionFactory;
 import com.ncoding.core.models.DayPhases;
 import com.ncoding.core.ports.*;
-import com.ncoding.core.services.*;
-import com.ncoding.infrastructure.*;
+import com.ncoding.infrastructure.inmemory.InMemoryMoodRepository;
+import com.ncoding.infrastructure.inmemory.InMemoryReportRepository;
+import com.ncoding.infrastructure.inmemory.InMemoryWaterBotRepository;
+import com.ncoding.infrastructure.mariadb.MariaDbMoodRepository;
+import com.ncoding.infrastructure.system.SystemClock;
+import com.ncoding.infrastructure.wisp.WispSchedulerWrapper;
 import com.ncoding.ui.TelegramBot;
 import com.ncoding.ui.TelegramMessageAdapter;
+import org.mariadb.jdbc.MariaDbDataSource;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +47,18 @@ public class Main {
         phasesMap.put(20, DayPhases.Dinner);
         phasesMap.put(22, DayPhases.Night);
 
+        MariaDbDataSource mariaDbDataSource = new MariaDbDataSource();
+
+        try {
+            mariaDbDataSource.setUrl("jdbc:mariadb://localhost:3307/waterbot");
+            mariaDbDataSource.setUser("root");
+            mariaDbDataSource.setPassword("example");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         DayPhaseRetriever dayPhaseRetriever = new DayPhaseRetrieverImpl(phasesMap);
-        MoodRepository moodRepository = new InMemoryMoodRepository();
+        MoodRepository moodRepository = new MariaDbMoodRepository(mariaDbDataSource);
 
         MessagePicker messagePicker = new RandomMessagePicker(dayPhaseRetriever,moodRepository);
         IWaterBotScheduler wbScheduler = new WaterBotScheduler(waterBotScheduler,

@@ -4,7 +4,6 @@ import com.ncoding.core.actions.Action;
 import com.ncoding.core.actions.DrinkAlertAction;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.JobScheduler;
-import com.ncoding.core.ports.MessagePicker;
 import com.ncoding.core.ports.UserRepository;
 import lombok.AllArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.ncoding.infrastructure;
+package com.ncoding.infrastructure.inmemory;
 
 import com.ncoding.core.models.User;
 import com.ncoding.core.models.UserId;

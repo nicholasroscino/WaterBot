@@ -5,7 +5,7 @@ import com.ncoding.core.models.WaterBotMessageResponse;
 import com.ncoding.core.ports.Clock;
 import com.ncoding.core.ports.UserRepository;
 import com.ncoding.core.services.IWaterBotGateway;
-import com.ncoding.core.ports.MessagePicker;
+import com.ncoding.core.services.MessagePicker;
 import lombok.AllArgsConstructor;
 
 import java.util.HashSet;
