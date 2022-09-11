@@ -5,10 +5,9 @@ import com.ncoding.core.actions.ActionFactory;
 import com.ncoding.core.actions.IActionFactory;
 import com.ncoding.core.models.DayPhases;
 import com.ncoding.core.ports.*;
-import com.ncoding.infrastructure.inmemory.InMemoryMoodRepository;
-import com.ncoding.infrastructure.inmemory.InMemoryReportRepository;
-import com.ncoding.infrastructure.inmemory.InMemoryWaterBotRepository;
 import com.ncoding.infrastructure.mariadb.MariaDbMoodRepository;
+import com.ncoding.infrastructure.mariadb.MariaDbReportRepository;
+import com.ncoding.infrastructure.mariadb.MariaDbWaterBotRepository;
 import com.ncoding.infrastructure.system.SystemClock;
 import com.ncoding.infrastructure.wisp.WispSchedulerWrapper;
 import com.ncoding.ui.TelegramBot;
@@ -28,10 +27,19 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BotConfig config = ConfigProvider.provideConfig(Environment.PROD);
+        MariaDbDataSource mariaDbDataSource = new MariaDbDataSource();
+
+        try {
+            mariaDbDataSource.setUrl("jdbc:mariadb://localhost:3307/waterbot");
+            mariaDbDataSource.setUser("root");
+            mariaDbDataSource.setPassword("example");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName(), new TelegramMessageAdapter());
-        UserRepository wbRepository = new InMemoryWaterBotRepository();
-        ReportRepository reportRepository = new InMemoryReportRepository();
+        UserRepository wbRepository = new MariaDbWaterBotRepository(mariaDbDataSource);
+        ReportRepository reportRepository = new MariaDbReportRepository(mariaDbDataSource);
         Clock clock = new SystemClock();
         IActionFactory actionFactory = new ActionFactory(wbRepository, reportRepository, clock);
         JobScheduler waterBotScheduler = new WispSchedulerWrapper();
@@ -46,16 +54,6 @@ public class Main {
         phasesMap.put(18, DayPhases.Other);
         phasesMap.put(20, DayPhases.Dinner);
         phasesMap.put(22, DayPhases.Night);
-
-        MariaDbDataSource mariaDbDataSource = new MariaDbDataSource();
-
-        try {
-            mariaDbDataSource.setUrl("jdbc:mariadb://localhost:3307/waterbot");
-            mariaDbDataSource.setUser("root");
-            mariaDbDataSource.setPassword("example");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         DayPhaseRetriever dayPhaseRetriever = new DayPhaseRetrieverImpl(phasesMap);
         MoodRepository moodRepository = new MariaDbMoodRepository(mariaDbDataSource);
