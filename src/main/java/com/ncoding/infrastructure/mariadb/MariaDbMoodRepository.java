@@ -2,6 +2,7 @@ package com.ncoding.infrastructure.mariadb;
 
 import com.ncoding.core.models.DayPhases;
 import com.ncoding.core.ports.MoodRepository;
+import org.apache.commons.dbutils.DbUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -24,7 +25,7 @@ public class MariaDbMoodRepository implements MoodRepository {
         List<String> strings = new ArrayList<>();
         try {
             conn = this.dataSource.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM Mood WHERE dayPhase = ?");
+            stmt = conn.prepareStatement("SELECT phrase FROM Mood WHERE dayPhase = ?");
 
             stmt.setString(1, dayPhases.toString());
 
@@ -37,9 +38,9 @@ public class MariaDbMoodRepository implements MoodRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                DbUtils.close(rs);
+                DbUtils.close(stmt);
+                DbUtils.close(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

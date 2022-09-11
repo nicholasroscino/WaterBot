@@ -3,6 +3,7 @@ package com.ncoding.infrastructure.mariadb;
 import com.ncoding.core.models.User;
 import com.ncoding.core.models.UserId;
 import com.ncoding.core.ports.UserRepository;
+import org.apache.commons.dbutils.DbUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -39,8 +40,8 @@ public class MariaDbWaterBotRepository implements UserRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                DbUtils.close(stmt);
+                DbUtils.close(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -69,8 +70,8 @@ public class MariaDbWaterBotRepository implements UserRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                DbUtils.close(stmt);
+                DbUtils.close(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -87,7 +88,7 @@ public class MariaDbWaterBotRepository implements UserRepository {
         try {
             conn = this.dataSource.getConnection();
             stmt = conn.prepareStatement(
-                    "SELECT * FROM waterbot.Users WHERE userId = ?;"
+                    "SELECT name, tag, timeOffsetInSecond FROM waterbot.Users WHERE userId = ?;"
             );
 
             stmt.setString(1, userId.getValue());
@@ -104,8 +105,8 @@ public class MariaDbWaterBotRepository implements UserRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                DbUtils.close(stmt);
+                DbUtils.close(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -123,7 +124,7 @@ public class MariaDbWaterBotRepository implements UserRepository {
         try {
             conn = this.dataSource.getConnection();
             stmt = conn.prepareStatement(
-                    "SELECT * FROM waterbot.Users;"
+                    "SELECT userId, name, tag, timeOffsetInSecond FROM waterbot.Users;"
             );
 
             rs = stmt.executeQuery();
@@ -140,8 +141,8 @@ public class MariaDbWaterBotRepository implements UserRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                DbUtils.close(stmt);
+                DbUtils.close(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

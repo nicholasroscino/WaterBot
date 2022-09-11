@@ -26,6 +26,7 @@ dependencies {
     )
 
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+    implementation 'commons-dbutils:commons-dbutils:1.7'
 }
 
 test {

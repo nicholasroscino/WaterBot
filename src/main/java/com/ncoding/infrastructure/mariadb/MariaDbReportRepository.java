@@ -2,6 +2,7 @@ package com.ncoding.infrastructure.mariadb;
 
 import com.ncoding.core.models.Report;
 import com.ncoding.core.ports.ReportRepository;
+import org.apache.commons.dbutils.DbUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -37,8 +38,8 @@ public class MariaDbReportRepository implements ReportRepository {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                DbUtils.close(stmt);
+                DbUtils.close(conn);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
