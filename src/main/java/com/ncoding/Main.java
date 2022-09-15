@@ -26,18 +26,22 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        BotConfig config = ConfigProvider.provideConfig(Environment.PROD);
+        AppConfig config = ConfigProvider.provideConfig(Environment.PROD);
+
+        BotConfig botConfig = config.getBotConfig();
+        DatabaseConfig databaseConfig = config.getDatabaseConfig();
+
         MariaDbDataSource mariaDbDataSource = new MariaDbDataSource();
 
         try {
-            mariaDbDataSource.setUrl("jdbc:mariadb://localhost:3307/waterbot");
-            mariaDbDataSource.setUser("nick");
-            mariaDbDataSource.setPassword("pass");
+            mariaDbDataSource.setUrl(databaseConfig.getDbEndpoint());
+            mariaDbDataSource.setUser(databaseConfig.getDbUserName());
+            mariaDbDataSource.setPassword(databaseConfig.getDbPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        TelegramBot waterBot = new TelegramBot(config.getToken(), config.getBotName(), new TelegramMessageAdapter());
+        TelegramBot waterBot = new TelegramBot(botConfig.getToken(), botConfig.getBotName(), new TelegramMessageAdapter());
         UserRepository wbRepository = new MariaDbWaterBotRepository(mariaDbDataSource);
         ReportRepository reportRepository = new MariaDbReportRepository(mariaDbDataSource);
         Clock clock = new SystemClock();

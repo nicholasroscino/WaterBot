@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigProvider {
-    public static BotConfig provideConfig(Environment e) throws IOException {
+    public static AppConfig provideConfig(Environment e) throws IOException {
         var filename = "src/main/resources/" + e.toString() + ".properties";
 
         BotConfig botConfig = new BotConfig();
+        DatabaseConfig databaseConfig = new DatabaseConfig();
+
         FileReader reader = new FileReader(filename);
 
         Properties p = new Properties();
@@ -17,7 +19,10 @@ public class ConfigProvider {
 
         botConfig.setToken(p.getProperty("usertoken"));
         botConfig.setBotName(p.getProperty("botname"));
+        databaseConfig.setDbUserName(p.getProperty("db_username"));
+        databaseConfig.setDbPassword(p.getProperty("db_password"));
+        databaseConfig.setDbEndpoint(p.getProperty("db_endpoint"));
 
-        return botConfig;
+        return new AppConfig(botConfig, databaseConfig);
     }
 }
