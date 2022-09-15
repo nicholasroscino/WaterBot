@@ -133,7 +133,7 @@ public class MariaDbWaterBotRepository implements UserRepository {
                 var userId = new UserId(rs.getString("userId"));
                 var name = rs.getString("name");
                 var tag = rs.getString("tag");
-                var zoneOffset = ZoneOffset.ofTotalSeconds(rs.getInt("timeOffsetInSeconds"));
+                var zoneOffset = ZoneOffset.ofTotalSeconds(rs.getInt("timeOffsetInSecond"));
 
                 userSet.add(new User(userId,name,tag,zoneOffset));
             }

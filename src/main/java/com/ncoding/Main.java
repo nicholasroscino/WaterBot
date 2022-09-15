@@ -31,8 +31,8 @@ public class Main {
 
         try {
             mariaDbDataSource.setUrl("jdbc:mariadb://localhost:3307/waterbot");
-            mariaDbDataSource.setUser("root");
-            mariaDbDataSource.setPassword("example");
+            mariaDbDataSource.setUser("nick");
+            mariaDbDataSource.setPassword("pass");
         } catch (SQLException e) {
             e.printStackTrace();
         }
