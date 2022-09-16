@@ -22,7 +22,9 @@ public class DrinkAlertAction implements Action {
     public void execute() {
         HashSet<User> users = repository.getAll();
 
-        users.forEach(curr -> {
+        users.stream()
+                .filter(curr -> !curr.isHasBlockedBot())
+                .forEach(curr -> {
             int hour = clock.getCurrentTimeZoneHour(curr.getOffset());
 
             if(triggerTimes.contains(hour)) {

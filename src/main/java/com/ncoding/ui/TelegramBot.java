@@ -38,9 +38,13 @@ public class TelegramBot extends TelegramLongPollingBot implements WaterBotClien
             System.out.println("INFO: No gateway set");
             return;
         }
-        var wbMessage = this.messageAdapter.toWaterBotMessage(msg);
-
-        this.gateway.onUpdates(wbMessage);
+        if(msg != null) {
+            var wbMessage = this.messageAdapter.toWaterBotMessage(msg);
+            this.gateway.onUpdates(wbMessage);
+        } else {
+            var wbMessage = this.messageAdapter.toWaterBotMessage(update.getMyChatMember());
+            this.gateway.onChatMemberUpdated(wbMessage);
+        }
     }
 
     public void sendMessage(WaterBotMessageResponse message) {

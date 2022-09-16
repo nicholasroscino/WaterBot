@@ -39,7 +39,7 @@ public class DrinkAlertActionUnitTest {
     public void execute() {
         var triggerTime = 12;
         var fixedMessage = "Hello, Drink now";
-        var userToSendMessageTo = new User(new UserId("1"), "nick", "nick", ZoneOffset.UTC);
+        var userToSendMessageTo = new User(new UserId("1"), "nick", "nick", ZoneOffset.UTC, false);
         var set = new HashSet<>(List.of(userToSendMessageTo));
         var waterBotGateway = Mockito.mock(WaterBotGateway.class);
         var waterBotRepository = Mockito.mock(UserRepository.class);

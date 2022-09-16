@@ -14,4 +14,5 @@ public class User {
     private String name;
     private String tag;
     private ZoneOffset offset;
+    private boolean hasBlockedBot;
 }

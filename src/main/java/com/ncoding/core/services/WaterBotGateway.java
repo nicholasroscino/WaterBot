@@ -28,4 +28,9 @@ public class WaterBotGateway implements IWaterBotGateway {
         var action = this.actionFactory.createAction(message, this);
         if (action != null) action.execute();
     }
+
+    public void onChatMemberUpdated(WaterBotMessage message) {
+        var action = this.actionFactory.createChatMemberUpdatedAction(message);
+        if(action != null) action.execute();
+    }
 }

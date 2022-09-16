@@ -34,7 +34,7 @@ public class MariaDbWaterBotRepository implements UserRepository {
             stmt.setInt(4, user.getOffset().get(ChronoField.OFFSET_SECONDS));
 
             stmt.executeQuery();
-        } catch(SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
             update(user);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,14 +56,15 @@ public class MariaDbWaterBotRepository implements UserRepository {
         try {
             conn = this.dataSource.getConnection();
             stmt = conn.prepareStatement(
-                    "UPDATE waterbot.Users SET userId = ?, name = ?, tag = ?, timeOffsetInSecond =? WHERE userId = ?;"
+                    "UPDATE waterbot.Users SET userId = ?, name = ?, tag = ?, timeOffsetInSecond = ?, hasBlockedBot = ? WHERE userId = ?;"
             );
 
             stmt.setString(1, user.getUserId().getValue());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getTag());
             stmt.setInt(4, user.getOffset().get(ChronoField.OFFSET_SECONDS));
-            stmt.setString(5, user.getUserId().getValue());
+            stmt.setBoolean(5, user.isHasBlockedBot());
+            stmt.setString(6, user.getUserId().getValue());
 
             stmt.executeQuery();
         } catch (SQLException e) {
@@ -88,18 +89,19 @@ public class MariaDbWaterBotRepository implements UserRepository {
         try {
             conn = this.dataSource.getConnection();
             stmt = conn.prepareStatement(
-                    "SELECT name, tag, timeOffsetInSecond FROM waterbot.Users WHERE userId = ?;"
+                    "SELECT name, tag, timeOffsetInSecond, hasBlockedBot FROM waterbot.Users WHERE userId = ?;"
             );
 
             stmt.setString(1, userId.getValue());
             rs = stmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 var name = rs.getString("name");
                 var tag = rs.getString("tag");
+                var hasBlockedBot = rs.getBoolean("hasBlockedBot");
                 var zoneOffset = ZoneOffset.ofTotalSeconds(rs.getInt("timeOffsetInSecond"));
 
-                user = new User(userId,name,tag,zoneOffset);
+                user = new User(userId, name, tag, zoneOffset, hasBlockedBot);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -124,18 +126,19 @@ public class MariaDbWaterBotRepository implements UserRepository {
         try {
             conn = this.dataSource.getConnection();
             stmt = conn.prepareStatement(
-                    "SELECT userId, name, tag, timeOffsetInSecond FROM waterbot.Users;"
+                    "SELECT userId, name, tag, timeOffsetInSecond, hasBlockedBot FROM waterbot.Users;"
             );
 
             rs = stmt.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 var userId = new UserId(rs.getString("userId"));
                 var name = rs.getString("name");
                 var tag = rs.getString("tag");
+                var hasBlockedBot = rs.getBoolean("hasBlockedBot");
                 var zoneOffset = ZoneOffset.ofTotalSeconds(rs.getInt("timeOffsetInSecond"));
 
-                userSet.add(new User(userId,name,tag,zoneOffset));
+                userSet.add(new User(userId, name, tag, zoneOffset, hasBlockedBot));
             }
         } catch (SQLException e) {
             e.printStackTrace();

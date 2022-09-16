@@ -22,7 +22,7 @@ public class SetTimeZoneActionUnitTest {
         IWaterBotGateway waterBotGateway = Mockito.mock(IWaterBotGateway.class);
         var captor = ArgumentCaptor.forClass(WaterBotMessageResponse.class);
         var userCaptor = ArgumentCaptor.forClass(User.class);
-        User userStub = new User(new UserId("TG-1"), "nick","nick", ZoneOffset.UTC);
+        User userStub = new User(new UserId("TG-1"), "nick","nick", ZoneOffset.UTC,false);
         Mockito.when(userRepository.getOne(Mockito.any())).thenReturn(userStub);
 
         SetTimeZoneAction reportAction = new SetTimeZoneAction(userRepository,message,waterBotGateway);
@@ -33,7 +33,7 @@ public class SetTimeZoneActionUnitTest {
         var user = userCaptor.getValue();
         var value = captor.getValue();
         assertThat(value, equalTo(TestUtils.buildWaterBotMessageResponse("TG-1", "The timezone has been updated")));
-        assertThat(user, equalTo(new User(new UserId("TG-1"),"nick", "nick", ZoneOffset.of("+1"))));
+        assertThat(user, equalTo(new User(new UserId("TG-1"),"nick", "nick", ZoneOffset.of("+1"),false)));
     }
 
     @Test

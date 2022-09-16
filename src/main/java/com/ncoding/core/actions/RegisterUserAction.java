@@ -18,7 +18,7 @@ public class RegisterUserAction implements Action {
 
     @Override
     public void execute() {
-        var user = new User(this.message.getUserId(),this.message.getUserName(), this.message.getUserTag(), ZoneOffset.UTC);
+        var user = new User(this.message.getUserId(),this.message.getUserName(), this.message.getUserTag(), ZoneOffset.UTC, false);
         var existAlready = this.repository.getOne(this.message.getUserId());
 
         WaterBotMessageResponse retMessage;

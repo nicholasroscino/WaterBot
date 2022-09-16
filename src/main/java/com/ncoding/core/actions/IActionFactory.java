@@ -5,4 +5,5 @@ import com.ncoding.core.services.IWaterBotGateway;
 
 public interface IActionFactory {
     Action createAction(WaterBotMessage message, IWaterBotGateway gateway);
+    Action createChatMemberUpdatedAction(WaterBotMessage message);
 }
