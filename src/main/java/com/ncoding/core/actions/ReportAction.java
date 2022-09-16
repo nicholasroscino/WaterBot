@@ -21,6 +21,11 @@ public class ReportAction implements Action {
     public void execute() {
         var msg = message.getMessage().substring(CODE.length()).trim();
 
+        if(msg.length() == 0) {
+            gateway.sendMessage(new WaterBotMessageResponse(message.getUserId(), "The report message should contain a message"));
+            return;
+        }
+
         Report r = new Report(message.getUserId(), msg, clock.getCurrentTimestamp());
         repository.save(r);
         gateway.sendMessage(new WaterBotMessageResponse(message.getUserId(), "The report has been submitted, thank you :)"));

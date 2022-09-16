@@ -19,10 +19,11 @@ public class ActionFactory implements IActionFactory {
 
     public Action createAction(WaterBotMessage waterBotMessage, IWaterBotGateway waterBotGateway) {
         return switch (extractCommand(waterBotMessage.getMessage())) {
-            case EchoAction.CODE -> new EchoAction(waterBotGateway,waterBotMessage);
+            case EchoAction.CODE -> new EchoAction(waterBotGateway, waterBotMessage);
             case RegisterUserAction.CODE -> new RegisterUserAction(waterBotMessage, waterBotGateway, repository);
             case ReportAction.CODE -> new ReportAction(reportRepository, waterBotMessage, clock, waterBotGateway);
-            case SetTimeZoneAction.CODE -> new SetTimeZoneAction(repository,waterBotMessage,waterBotGateway);
+            case SetTimeZoneAction.CODE -> new SetTimeZoneAction(repository, waterBotMessage, waterBotGateway);
+            case HelpAction.CODE -> new HelpAction(waterBotGateway, waterBotMessage);
             default -> null;
         };
     }
